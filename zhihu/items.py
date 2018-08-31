@@ -10,8 +10,8 @@ import scrapy
 
 class ZhihuUserItem(scrapy.Item):
     # define the fields for your item here like:
-    # name = scrapy.Field()
-    id = scrapy.Field()
+    userid = scrapy.Field()         # 目标字段是“id”，这里改成“userid”了。
+    url_token = scrapy.Field()
     name = scrapy.Field()
     type = scrapy.Field()
     answer_count = scrapy.Field()
