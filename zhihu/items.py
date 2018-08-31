@@ -21,3 +21,4 @@ class ZhihuUserItem(scrapy.Item):
     follower_count = scrapy.Field()
     badge = scrapy.Field()
     employments = scrapy.Field()
+    updatetime = scrapy.Field()     # 自己增加的字段

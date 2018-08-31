@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import datetime
 import json
 import scrapy
 
@@ -54,6 +55,7 @@ class UserinfoSpider(scrapy.Spider):
                 item[field] = result.get(field, '')
             if 'id' in result.keys():
                 item['userid'] = result.get('id', '')
+            item['updatetime'] = datetime.datetime.now().isoformat(' ')
 
         yield item
         # print(item)
