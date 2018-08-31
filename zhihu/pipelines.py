@@ -40,7 +40,7 @@ class ZhihuPipeline(object):
         else:
             item['gender'] = '未知'
 
-        # 更新或插入文档
+        # 更新或插入文档，与MongoDB shell命令类似
         self.collection.update_one({'url_token': item['url_token']}, {'$set': item}, True)
 
         return item
