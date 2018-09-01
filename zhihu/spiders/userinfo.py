@@ -13,9 +13,9 @@ class UserinfoSpider(scrapy.Spider):
 
     custom_settings = {
         'ITEM_PIPELINES': {
-            'zhihu.pipelines.ZhihuPipeline': 300,
+            # 'zhihu.pipelines.ZhihuPipeline': 300,
             'zhihu.pipelines.ZhihuPipelineToMySQL': 301,
-            'zhihu.pipelines.ZhihuPipelineToMySQLORM': 302,
+            # 'zhihu.pipelines.ZhihuPipelineToMySQLORM': 302,
         },
     }
 
