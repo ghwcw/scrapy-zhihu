@@ -95,7 +95,7 @@ class ZhihuPipelineToMySQL(object):
 
         # 将数据插入MySQL
         try:
-            sql = "insert into zhihu_users(userid,url_token,`name`,`type`,answer_count,articles_count,gender,headline,follower_count,badge,employments) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+            sql = "insert into {0}(userid,url_token,`name`,`type`,answer_count,articles_count,gender,headline,follower_count,badge,employments) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)".format(self.mysql_table)
 
             self.cursor.execute(sql,
                                 (item['userid'], item['url_token'], item['name'], item['type'], item['answer_count'],
@@ -105,7 +105,7 @@ class ZhihuPipelineToMySQL(object):
             self.client.commit()
             self.cursor.scroll(0)
         except Exception as e:
-            raise Exception('MySQL操作失败！->%s' % e)
+            print('MySQL操作失败！->%s' % e)
 
         return item
 
