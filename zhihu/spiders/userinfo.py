@@ -12,10 +12,14 @@ class UserinfoSpider(scrapy.Spider):
     start_urls = ['http://www.zhihu.com/']
 
     custom_settings = {
-        'ITEM_PIPELINES': {'zhihu.pipelines.ZhihuPipeline': 300, }
+        'ITEM_PIPELINES': {
+            'zhihu.pipelines.ZhihuPipeline': 300,
+            'zhihu.pipelines.ZhihuPipelineToMySQL': 301,
+            'zhihu.pipelines.ZhihuPipelineToMySQLORM': 302,
+        },
     }
 
-    # 知乎用户URL，获取用户的基本信息。  入口地址 https://www.zhihu.com/people/excited-vczh/following?page=1
+    # 知乎用户URL，获取用户的基本信息。  入口地址https://www.zhihu.com/people/excited-vczh/following?page=1
     start_username = 'excited-vczh'
     user_url = 'https://www.zhihu.com/api/v4/members/{username}?include={user_query}'
     user_query = 'allow_message,is_followed,is_following,is_org,is_blocking,employments,answer_count,follower_count,articles_count,gender,badge[?(type=best_answerer)].topics'
