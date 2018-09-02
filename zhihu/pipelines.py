@@ -166,6 +166,11 @@ class ZhihuPipelineToMySQLORM(object):
         else:
             item['gender'] = '未知'
 
+        if not item['badge']:
+            item['badge'] = ''
+        if not item['employments']:
+            item['employments'] = ''
+
         try:
             user_obj = ZhihuUsersOrm()
             user_obj.userid = item['userid']
@@ -197,7 +202,7 @@ Base = declarative_base()
 
 
 class ZhihuUsersOrm(Base):
-    __tablename__ = 'zhihu_users_orm'
+    __tablename__ = 'zhihu_users_orm'       # 实体表名
     rowid = sqlalchemy.Column(Integer, nullable=False, primary_key=True, autoincrement=True)
     userid = sqlalchemy.Column(String(128), unique=True, nullable=False, index=True)
     url_token = sqlalchemy.Column(String(64), nullable=False, unique=True)
@@ -206,9 +211,9 @@ class ZhihuUsersOrm(Base):
     answer_count = sqlalchemy.Column(Integer)
     articles_count = sqlalchemy.Column(Integer)
     gender = sqlalchemy.Column(String(8))
-    headline = sqlalchemy.Column(String(256))
+    headline = sqlalchemy.Column(String(2048))
     follower_count = sqlalchemy.Column(Integer)
-    badge = sqlalchemy.Column(Text)
+    badge = sqlalchemy.Column(Text)             # 字长太大，使用了Text类型
     employments = sqlalchemy.Column(Text)
     updatetime = sqlalchemy.Column(TIMESTAMP, nullable=False, default=datetime.datetime.now().isoformat(),
                                    onupdate=datetime.datetime.now().isoformat())
