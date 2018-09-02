@@ -146,8 +146,8 @@ class ZhihuPipelineToMySQLORM(object):
                                                                                        password=self.mysql_password,
                                                                                        host=self.mysql_host,
                                                                                        port=self.mysql_port,
-
                                                                                        db=self.mysql_db), echo=False)
+
         # 构建实体表
         Base.metadata.create_all(self.engine)
         # 建立会话
@@ -194,6 +194,8 @@ class ZhihuPipelineToMySQLORM(object):
 # 建模型表
 # 声明基类，用于创建模型
 Base = declarative_base()
+
+
 class ZhihuUsersOrm(Base):
     __tablename__ = 'zhihu_users_orm'
     rowid = sqlalchemy.Column(Integer, nullable=False, primary_key=True, autoincrement=True)
@@ -208,6 +210,5 @@ class ZhihuUsersOrm(Base):
     follower_count = sqlalchemy.Column(Integer)
     badge = sqlalchemy.Column(Text)
     employments = sqlalchemy.Column(Text)
-    updatetime = sqlalchemy.Column(TIMESTAMP, nullable=False, default=datetime.datetime.now().isoformat())
-
-
+    updatetime = sqlalchemy.Column(TIMESTAMP, nullable=False, default=datetime.datetime.now().isoformat(),
+                                   onupdate=datetime.datetime.now().isoformat())
