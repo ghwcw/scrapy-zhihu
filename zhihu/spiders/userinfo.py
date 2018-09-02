@@ -13,9 +13,9 @@ class UserinfoSpider(scrapy.Spider):
 
     custom_settings = {
         'ITEM_PIPELINES': {
-            # 'zhihu.pipelines.ZhihuPipeline': 300,             # MongoDB存储
+            # 'zhihu.pipelines.ZhihuPipeline': 300,               # MongoDB存储
             # 'zhihu.pipelines.ZhihuPipelineToMySQL': 301,        # MySQL常规存储
-            'zhihu.pipelines.ZhihuPipelineToMySQLORM': 302,   # sqlalchemy MySQL存储
+            'zhihu.pipelines.ZhihuPipelineToMySQLORM': 302,     # sqlalchemy MySQL存储
         },
     }
 
