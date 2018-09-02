@@ -51,6 +51,11 @@ class ZhihuPipeline(object):
         else:
             item['gender'] = '未知'
 
+        if not item['badge']:
+            item['badge'] = ''
+        if not item['employments']:
+            item['employments'] = ''
+
         # 更新或插入文档，与MongoDB shell命令类似
         self.collection.update_one({'url_token': item['url_token']}, {'$set': item}, True)
 
@@ -98,6 +103,11 @@ class ZhihuPipelineToMySQL(object):
             item['gender'] = '女'
         else:
             item['gender'] = '未知'
+
+        if not item['badge']:
+            item['badge'] = ''
+        if not item['employments']:
+            item['employments'] = ''
 
         # 将数据插入MySQL
         try:
