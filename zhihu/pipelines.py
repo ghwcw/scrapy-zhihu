@@ -182,8 +182,8 @@ class ZhihuPipelineToMySQLORM(object):
             user_obj.gender = item['gender']
             user_obj.headline = item['headline']
             user_obj.follower_count = item['follower_count']
-            user_obj.badge = str(item['badge'])
-            user_obj.employments = str(item['employments'])
+            user_obj.badge = str(item['badge'])         # badge是个列表，转成字符串
+            user_obj.employments = str(item['employments'])     # 同上
 
             # 判断是否已存在
             boo = self.ses.query(ZhihuUsersOrm).filter(ZhihuUsersOrm.userid == item['userid']).all()
