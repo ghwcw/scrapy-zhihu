@@ -49,16 +49,17 @@ class UserinfoSpider(scrapy.Spider):
     def parse_user(self, response):
         """
         解析用户的基本信息
+        返回数据是json，所以对json解析（反序列化）
         :param response:
         :return:
         """
         result = json.loads(response.text)
-        item = ZhihuUserItem()
-        for field in item.fields:
+        item = ZhihuUserItem()          # 实例化Item
+        for field in item.fields:       # 遍历Item字段，并且对应赋值
             if field in result.keys():
                 item[field] = result.get(field, '')
             if 'id' in result.keys():
-                item['userid'] = result.get('id', '')
+                item['userid'] = result.get('id', '')       # json中是id，Item中定义是userid，所以要特殊处理
             item['updatetime'] = datetime.datetime.now().isoformat(' ')
 
         yield item
