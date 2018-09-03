@@ -213,6 +213,7 @@ Base = declarative_base()
 
 class ZhihuUsersOrm(Base):
     __tablename__ = 'zhihu_users_orm'       # 实体表名
+
     rowid = sqlalchemy.Column(Integer, nullable=False, primary_key=True, autoincrement=True)
     userid = sqlalchemy.Column(String(128), unique=True, nullable=False, index=True)
     url_token = sqlalchemy.Column(String(64), nullable=False, unique=True)
