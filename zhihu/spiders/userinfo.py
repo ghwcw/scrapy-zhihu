@@ -13,14 +13,14 @@ class UserinfoSpider(scrapy.Spider):
 
     custom_settings = {
         'ITEM_PIPELINES': {
-            # 'zhihu.pipelines.ZhihuPipeline': 300,               # MongoDB存储
-            # 'zhihu.pipelines.ZhihuPipelineToMySQL': 301,        # MySQL常规存储，事先建好实体表
-            'zhihu.pipelines.ZhihuPipelineToMySQLORM': 302,     # sqlalchemy MySQL存储，自动映射成实体表
+            'zhihu.pipelines.ZhihuPipeline': 300,               # MongoDB存储
+            'zhihu.pipelines.ZhihuPipelineToMySQL': 301,        # MySQL常规存储，事先建好实体表
+            # 'zhihu.pipelines.ZhihuPipelineToMySQLORM': 302,     # sqlalchemy MySQL存储，自动映射成实体表
         },
     }
 
-    # 知乎用户URL，获取用户的基本信息。  入口地址https://www.zhihu.com/people/excited-vczh/following?page=1
-    start_username = 'excited-vczh'
+    # 知乎用户URL，获取用户的基本信息。  入口地址：https://www.zhihu.com/people/zhou-mi-73/following?page=1
+    start_username = 'zhou-mi-73'
     user_url = 'https://www.zhihu.com/api/v4/members/{username}?include={user_query}'
     user_query = 'allow_message,is_followed,is_following,is_org,is_blocking,employments,answer_count,follower_count,articles_count,gender,badge[?(type=best_answerer)].topics'
 
