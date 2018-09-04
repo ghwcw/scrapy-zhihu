@@ -44,9 +44,9 @@ class ZhihuPipeline(object):
 
     def process_item(self, item, spider):
         item = dict(item)
-        if int(item['gender']) == 1:
+        if str(item['gender']) == '1':
             item['gender'] = '男'
-        elif int(item['gender']) == 0:
+        elif str(item['gender']) == '0':
             item['gender'] = '女'
         else:
             item['gender'] = '未知'
@@ -97,9 +97,9 @@ class ZhihuPipelineToMySQL(object):
 
     def process_item(self, items, spider):
         item = dict(items)
-        if int(item['gender']) == 1:
+        if str(item['gender']) == '1':
             item['gender'] = '男'
-        elif int(item['gender']) == 0:
+        elif str(item['gender']) == '0':
             item['gender'] = '女'
         else:
             item['gender'] = '未知'
@@ -169,9 +169,9 @@ class ZhihuPipelineToMySQLORM(object):
 
     def process_item(self, items, spider):
         item = dict(items)
-        if int(item['gender']) == 1:
+        if str(item['gender']) == '1':
             item['gender'] = '男'
-        elif int(item['gender']) == 0:
+        elif str(item['gender']) == '0':
             item['gender'] = '女'
         else:
             item['gender'] = '未知'
