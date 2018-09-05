@@ -14,8 +14,8 @@ class UserinfoSpider(scrapy.Spider):
     custom_settings = {
         'ITEM_PIPELINES': {
             'zhihu.pipelines.ZhihuPipeline': 300,               # MongoDB存储
-            'zhihu.pipelines.ZhihuPipelineToMySQL': 301,        # MySQL常规存储，事先建好实体表
-            'zhihu.pipelines.ZhihuPipelineToMySQLORM': 302,     # sqlalchemy MySQL存储，自动映射成实体表
+            # 'zhihu.pipelines.ZhihuPipelineToMySQL': 301,        # MySQL常规存储，事先建好实体表
+            # 'zhihu.pipelines.ZhihuPipelineToMySQLORM': 302,     # sqlalchemy MySQL存储，自动映射成实体表
         },
     }
 
@@ -91,7 +91,7 @@ class UserinfoSpider(scrapy.Spider):
                     callback=self.parse_user)
 
         # 下一页是关注列表
-        if 'paging' in result.keys() and result.get('paging').get('is_end') == False:
+        if 'paging' in result.keys() and result.get('paging').get('is_end') is False:
             next_page = result.get('paging').get('next')
             yield scrapy.Request(url=next_page, callback=self.parse_followees)
 
@@ -111,6 +111,6 @@ class UserinfoSpider(scrapy.Spider):
                     callback=self.parse_user)
 
         # 下一页是关注他的人（粉丝）的列表
-        if 'paging' in result.keys() and result.get('paging').get('is_end') == False:
+        if 'paging' in result.keys() and result.get('paging').get('is_end') is False:
             next_page = result.get('paging').get('next')
             yield scrapy.Request(url=next_page, callback=self.parse_fans)
