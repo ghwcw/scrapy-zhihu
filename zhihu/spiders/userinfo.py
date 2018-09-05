@@ -114,3 +114,4 @@ class UserinfoSpider(scrapy.Spider):
         if 'paging' in result.keys() and result.get('paging').get('is_end') is False:
             next_page = result.get('paging').get('next')
             yield scrapy.Request(url=next_page, callback=self.parse_fans)
+
