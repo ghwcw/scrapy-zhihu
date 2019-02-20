@@ -44,9 +44,9 @@ class ZhihuPipeline(object):
 
     def process_item(self, item, spider):
         item = dict(item)
-        if int(item['gender']) == 1:
+        if '1' in str(item['gender']):
             item['gender'] = '男'
-        elif int(item['gender']) == 0:
+        elif '0' in str(item['gender']):
             item['gender'] = '女'
         else:
             item['gender'] = '未知'
@@ -57,7 +57,10 @@ class ZhihuPipeline(object):
             item['employments'] = ''
 
         # 更新或插入文档，与MongoDB shell命令类似
-        self.collection.update_one({'url_token': item['url_token']}, {'$set': item}, True)
+        try:
+            self.collection.update_one({'url_token': item['url_token']}, {'$set': item}, True)
+        except Exception as err:
+            print('MongoDB操作失败！->%s' % err)
 
         return item
 
@@ -97,12 +100,6 @@ class ZhihuPipelineToMySQL(object):
 
     def process_item(self, items, spider):
         item = dict(items)
-        if int(item['gender']) == 1:
-            item['gender'] = '男'
-        elif int(item['gender']) == 0:
-            item['gender'] = '女'
-        else:
-            item['gender'] = '未知'
 
         if not item['badge']:
             item['badge'] = ''
@@ -121,15 +118,15 @@ class ZhihuPipelineToMySQL(object):
 
             self.client.commit()
             self.cursor.scroll(0)
-        except Exception as e:
-            print('MySQL操作失败！->%s' % e)
+        except Exception as err:
+            print('MySQL操作失败！->%s' % err)
 
         return item
 
 
 class ZhihuPipelineToMySQLORM(object):
     """
-    使用SQLAlchemy保存数据
+    使用SQLAlchemy保存数据到MySQL中
     """
 
     def __init__(self, mysql_user, mysql_password, mysql_host, mysql_port, mysql_db):
@@ -169,12 +166,6 @@ class ZhihuPipelineToMySQLORM(object):
 
     def process_item(self, items, spider):
         item = dict(items)
-        if int(item['gender']) == 1:
-            item['gender'] = '男'
-        elif int(item['gender']) == 0:
-            item['gender'] = '女'
-        else:
-            item['gender'] = '未知'
 
         if not item['badge']:
             item['badge'] = ''
@@ -192,8 +183,8 @@ class ZhihuPipelineToMySQLORM(object):
             user_obj.gender = item['gender']
             user_obj.headline = item['headline']
             user_obj.follower_count = item['follower_count']
-            user_obj.badge = str(item['badge'])         # badge是个列表，转成字符串
-            user_obj.employments = str(item['employments'])     # 同上
+            user_obj.badge = str(item['badge'])  # badge是个列表，转成字符串
+            user_obj.employments = str(item['employments'])  # 同上
 
             # 判断是否已存在
             boo = self.ses.query(ZhihuUsersOrm).filter(ZhihuUsersOrm.userid == item['userid']).all()
@@ -212,7 +203,7 @@ Base = declarative_base()
 
 
 class ZhihuUsersOrm(Base):
-    __tablename__ = 'zhihu_users_orm'       # 实体表名
+    __tablename__ = 'zhihu_users_orm'  # 实体表名
 
     rowid = sqlalchemy.Column(Integer, nullable=False, primary_key=True, autoincrement=True)
     userid = sqlalchemy.Column(String(128), unique=True, nullable=False, index=True)
@@ -224,7 +215,7 @@ class ZhihuUsersOrm(Base):
     gender = sqlalchemy.Column(String(8))
     headline = sqlalchemy.Column(String(2048))
     follower_count = sqlalchemy.Column(Integer)
-    badge = sqlalchemy.Column(Text)             # 字长太大，使用了Text类型
+    badge = sqlalchemy.Column(Text)  # 字长太大，使用了Text类型
     employments = sqlalchemy.Column(Text)
     updatetime = sqlalchemy.Column(TIMESTAMP, nullable=False, default=datetime.datetime.now().isoformat(),
                                    onupdate=datetime.datetime.now().isoformat())
