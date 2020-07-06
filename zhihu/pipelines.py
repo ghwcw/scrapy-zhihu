@@ -35,12 +35,12 @@ class ZhihuPipeline(object):
         )
 
     def open_spider(self, spider):
-        self.client = pymongo.MongoClient(host=self.mongo_host, port=self.mongo_port)
-        self.db = self.client[self.mongo_db]
+        self.conn = pymongo.MongoClient(host=self.mongo_host, port=self.mongo_port)
+        self.db = self.conn[self.mongo_db]
         self.collection = self.db[self.mongo_collection]
 
     def close_spider(self, spider):
-        self.client.close()
+        self.conn.close()
 
     def process_item(self, item, spider):
         item = dict(item)
@@ -90,13 +90,13 @@ class ZhihuPipelineToMySQL(object):
         )
 
     def open_spider(self, spider):
-        self.client = pymysql.Connect(user=self.mysql_user, password=self.mysql_password, host=self.mysql_host,
+        self.conn = pymysql.Connect(user=self.mysql_user, password=self.mysql_password, host=self.mysql_host,
                                       port=self.mysql_port, database=self.mysql_db, charset='utf8')
-        self.cursor = self.client.cursor()
+        self.cursor = self.conn.cursor()
 
     def close_spider(self, spider):
         self.cursor.close()
-        self.client.close()
+        self.conn.close()
 
     def process_item(self, items, spider):
         item = dict(items)
@@ -116,7 +116,7 @@ class ZhihuPipelineToMySQL(object):
                                  item['articles_count'], item['gender'], item['headline'], item['follower_count'],
                                  str(item['badge']), str(item['employments'])))
 
-            self.client.commit()
+            self.conn.commit()
             self.cursor.scroll(0)
         except Exception as err:
             print('MySQL操作失败！->%s' % err)
