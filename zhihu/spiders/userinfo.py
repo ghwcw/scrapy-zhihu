@@ -9,7 +9,7 @@ from zhihu.items import ZhihuUserItem
 class UserinfoSpider(scrapy.Spider):
     name = 'userinfo'
     allowed_domains = ['www.zhihu.com']
-    start_urls = ['http://www.zhihu.com/']
+    # start_urls = ['http://www.zhihu.com/']
 
     custom_settings = {
         'ITEM_PIPELINES': {
